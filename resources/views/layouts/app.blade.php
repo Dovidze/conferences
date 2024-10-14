@@ -32,7 +32,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.index') }}">{{ __('Vartotojų koregavimas') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
+                        </li>
+
                         @endif
+                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
+                        </li>
+
+                        @endif
+                        @if(auth()->check() && auth()->user()->role->id == 1) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
+                        </li>
+
+                        @endif
+
 
                     </ul>
 

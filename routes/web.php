@@ -18,3 +18,11 @@ use App\Http\Controllers\AdminController;
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::put('/admin/users/{user}/update-role', [AdminController::class, 'updateRole'])->name('admin.updateRole');
 
+use App\Http\Controllers\ConferenceController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('conferences', ConferenceController::class);
+    Route::post('conferences/{conference}/register', [ConferenceController::class, 'register'])->name('conferences.register');
+    Route::delete('/conferences/{conference}', [ConferenceController::class, 'destroy'])->name('conferences.destroy');
+});
+
