@@ -38,6 +38,7 @@
                                     <option value="3" {{ $user->role_id == 3 ? 'selected' : '' }}>Administrator</option>
                                 </select>
                                 <button type="submit" class="btn btn-primary">Atnaujinti rolę</button>
+                                <a href="{{ route('admin.edit', $user->id) }}" class="btn btn-sm btn-warning">Redaguoti</a>
                             </form>
                         </td>
                     </tr>

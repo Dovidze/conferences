@@ -75,4 +75,26 @@ class ConferenceController extends Controller
         $conference->delete();
         return redirect()->route('conferences.index')->with('success', 'Konferencija sėkmingai ištrinta!');
     }
+    public function edit(Conference $conference)
+    {
+        return view('conferences.edit', compact('conference'));
+    }
+    public function update(Request $request, Conference $conference)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+        ]);
+
+        $conference->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+        ]);
+
+        return redirect()->route('conferences.index')->with('success', 'Konferencija sėkmingai atnaujinta!');
+    }
 }

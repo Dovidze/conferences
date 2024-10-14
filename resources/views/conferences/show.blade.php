@@ -4,8 +4,9 @@
     <div class="container">
         <h1>{{ $conference->title }}</h1>
         <p>{{ $conference->description }}</p>
-        <p>Pradžia: {{ $conference->start_time }}</p>
-        <p>Pabaiga: {{ $conference->end_time }}</p>
+        <p>Pradžia: {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
+        <p>Pabaiga: {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
+        <p>Sukurta: {{ $conference->user->name }}</p>
 
         @if($conference->end_time < now())
             <div class="alert alert-danger">Konferencija jau pasibaigusi.</div>
@@ -24,6 +25,7 @@
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('Ar tikrai norite ištrinti šią konferenciją?');">Ištrinti</button>
+            <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning">Redaguoti</a>
         </form>
         <h3>Registracijų sąrašas:</h3>
         <ul>

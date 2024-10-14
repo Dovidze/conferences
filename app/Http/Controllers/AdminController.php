@@ -36,4 +36,27 @@ class AdminController extends Controller
 
         return redirect('/')->with('error', 'You do not have admin access.');
     }
+
+    // Metodas, skirtas redaguoti vartotoją
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.edit', compact('user'));
+    }
+
+    // Metodas, skirtas atnaujinti vartotojo duomenis
+    public function updateUser(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect()->route('admin.index')->with('success', 'Vartotojo duomenys sėkmingai atnaujinti.');
+    }
 }

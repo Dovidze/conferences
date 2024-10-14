@@ -15,24 +15,24 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Pavadinimas</th>
                 <th>Aprašymas</th>
                 <th>Pradžios laikas</th>
                 <th>Pabaigos laikas</th>
                 <th>Sukūrimo data</th>
+                <th>Sukūrė</th>
                 <th>Veiksmai</th>
             </tr>
             </thead>
             <tbody>
             @foreach($conferences as $conference)
                 <tr>
-                    <td>{{ $conference->id }}</td>
                     <td>{{ $conference->title }}</td>
-                    <td>{{ $conference->description }}</td>
-                    <td>{{ $conference->start_time }}</td>
-                    <td>{{ $conference->end_time }}</td>
+                    <td class="text-truncate" style="max-width: 500px;">{{ $conference->description }}</td>
+                    <td>{{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</td>
+                    <td>{{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</td>
                     <td>{{ $conference->date }}</td> <!-- Rodyti sukūrimo datą -->
+                    <td>{{ $conference->user->name }}</td>
                     <td>
                         <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">Peržiūrėti</a>
                     </td>
