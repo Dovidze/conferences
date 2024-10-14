@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->id(); // Unikalus ID
-            $table->string('name')->unique(); // Rolės pavadinimas, turi būti unikalus
-            $table->timestamps(); // Sukuriamos laiko žymės (created_at, updated_at)
+            $table->id();
+            $table->string('name'); // Pridėkite šią eilutę
+            $table->timestamps();
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles'); // Ištrina lentelę, jei reikia
+        Schema::dropIfExists('roles');
     }
 };

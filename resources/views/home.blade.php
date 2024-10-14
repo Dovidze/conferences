@@ -14,8 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                        Jūsų rolė: {{ auth()->user()->role->name }}
                 </div>
+            </div>
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
             </div>
         </div>
     </div>
