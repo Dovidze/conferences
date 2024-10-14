@@ -11,8 +11,11 @@ class ConferenceController extends Controller
 {
     public function index()
     {
-        $conferences = Conference::with('user')->get();
-        return view('conferences.index', compact('conferences'));
+        $upcomingConferences = Conference::where('start_time', '>', now())->with('user')->get();
+        $pastConferences = Conference::where('end_time', '<', now())->with('user')->get();
+
+        return view('conferences.index', compact('upcomingConferences', 'pastConferences'));
+
     }
 
     public function create()
@@ -72,6 +75,9 @@ class ConferenceController extends Controller
     }
     public function destroy(Conference $conference)
     {
+        if ($conference->end_time < now()) {
+            return redirect()->route('conferences.index')->with('error', 'Negalite ištrinti pasibaigusios konferencijos.');
+        }
         $conference->delete();
         return redirect()->route('conferences.index')->with('success', 'Konferencija sėkmingai ištrinta!');
     }

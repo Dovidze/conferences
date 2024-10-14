@@ -21,13 +21,17 @@
             @endif
         @endif
         @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrinimas, ar vartotojas yra administratorius -->
+        @if($conference->end_time < now())
+
+        @else
         <form action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('Ar tikrai norite ištrinti šią konferenciją?');">Ištrinti</button>
-            <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning">Redaguoti</a>
         </form>
-        <h3>Registracijų sąrašas:</h3>
+        @endif
+        <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning">Redaguoti</a>
+        <h3>Užsiregistravę dalyviai:</h3>
         <ul>
             @foreach ($registrations as $registration)
                 <li>{{ $registration->user->name }}</li>
