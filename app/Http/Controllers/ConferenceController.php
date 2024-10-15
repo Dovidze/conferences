@@ -11,8 +11,9 @@ class ConferenceController extends Controller
 {
     public function index()
     {
-        $upcomingConferences = Conference::where('start_time', '>', now())->with('user')->get();
-        $pastConferences = Conference::where('end_time', '<', now())->with('user')->get();
+        $upcomingConferences = Conference::where('start_time', '>', now())->with('user')->withCount('registrations')->get();
+        $pastConferences = Conference::where('end_time', '<', now())->with('user')->withCount('registrations')->get();
+
 
         return view('conferences.index', compact('upcomingConferences', 'pastConferences'));
 
@@ -47,8 +48,11 @@ class ConferenceController extends Controller
 
     public function show(Conference $conference)
     {
+        // Gauti registruotų asmenų skaičių
+        $registrationsCount = $conference->registrations()->count();
         $registrations = $conference->registrations()->with('user')->get();
-        return view('conferences.show', compact('conference', 'registrations'));
+
+        return view('conferences.show', compact('conference','registrations','registrationsCount'));
     }
 
     public function register(Request $request, Conference $conference)
@@ -65,6 +69,7 @@ class ConferenceController extends Controller
         if ($existingRegistration) {
             return redirect()->route('conferences.show', $conference)->with('error', 'Jūs jau esate užsiregistravę į šią konferenciją.');
         }
+
 
         ConferenceRegistration::create([
             'conference_id' => $conference->id,

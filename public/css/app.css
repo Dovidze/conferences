@@ -13126,3 +13126,18 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.bg-gray-green {
+  background-color: #729164;
+}
+
+.bg-gray-green-low {
+  background-color: #c5ddb8;
+}
+
+.bg-gray-red {
+  background-color: #bc5757;
+}
+
+.bg-gray-red-low {
+  background-color: #ec9e9e;
+}

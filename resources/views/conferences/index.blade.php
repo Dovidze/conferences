@@ -2,75 +2,78 @@
 
 @section('content')
     <div class="container">
-
-        <h2>Planuojamos konferencijos</h2>
+        @if(auth()->check() && (auth()->user()->role->id == 3))
+            <a href="{{ route('conferences.create') }}" class="btn btn-success mb-3 w-100">Sukurti naują konferenciją</a>
+        @endif
+        <div class="card mb-2 bg-opacity-50">
+            <div class="card-header text-center fs-4 ">Planuojamos konferencijos</div>
+        </div>
         @if($upcomingConferences->isEmpty())
             <div class="alert alert-warning">Planuojamų konferencijų nėra.</div>
         @else
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Pavadinimas</th>
-                    <th>Aprašymas</th>
-                    <th>Pradžia</th>
-                    <th>Pabaiga</th>
-                    <th>Sukūrimo data</th>
-                    <th>Kūrėjas</th>
-                    <th>Veiksmai</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($upcomingConferences as $conference)
-                    <tr>
-                        <td>{{ $conference->title }}</td>
-                        <td class="text-truncate" style="max-width: 500px;">{{ $conference->description }}</td>
-                        <td>{{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</td>
-                        <td>{{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</td>
-                        <td>{{ $conference->date }}</td>
-                        <td>{{ $conference->user->name }}</td>
-                        <td>
-                            <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">Peržiūrėti</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        @endif
+                <div class="row gx-2">
+                    @foreach ($upcomingConferences as $conference)
+                        <div class="col-md-6 mb-2 ">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $conference->title }}</h5>
+                                    <p class="card-text text-truncate" style="max-width: 100%;">{{ $conference->description }}</p>
 
-        @if(auth()->check() && (auth()->user()->role->id == 2 || auth()->user()->role->id == 3))
-            <h2>Pasibaigusios konferencijos</h2>
-            @if($pastConferences->isEmpty())
-                <div class="alert alert-warning">Pasibaigusių konferencijų nėra.</div>
-            @else
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Pavadinimas</th>
-                        <th>Aprašymas</th>
-                        <th>Pradžia</th>
-                        <th>Pabaiga</th>
-                        <th>Sukūrimo data</th>
-                        <th>Kūrėjas</th>
-                        <th>Veiksmai</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($pastConferences as $conference)
-                        <tr>
-                            <td>{{ $conference->title }}</td>
-                            <td class="text-truncate" style="max-width: 500px;">{{ $conference->description }}</td>
-                            <td>{{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</td>
-                            <td>{{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</td>
-                            <td>{{ $conference->date }}</td>
-                            <td>{{ $conference->user->name }}</td>
-                            <td>
-                                <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">Peržiūrėti</a>
-                            </td>
-                        </tr>
+                                    <!-- Pradžios ir pabaigos laikas vienoje eilutėje -->
+                                    <div class="d-flex justify-content-between">
+                                        <p class="card-text"><strong>Pradžia:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
+                                        <p class="card-text"><strong>Pabaiga:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
+                                    </div>
+
+                                    <!-- Sukūrimo data ir organizatorius kitoje eilutėje -->
+                                    <div class="d-flex justify-content-between">
+                                        <p class="card-text"><strong>Data:</strong> {{ $conference->date }}</p>
+                                        <p class="card-text mx-auto"><strong>Užsiregistravę:</strong> {{ $conference->registrations_count }}</p>
+                                        <p class="card-text"><strong>Organizatorius:</strong> {{ $conference->user->name }}</p>
+                                    </div>
+
+                                    <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">Peržiūrėti</a>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
-                    </tbody>
-                </table>
-            @endif
+                </div>
         @endif
-    </div>
-@endsection
+            @if(auth()->check() && (auth()->user()->role->id == 2 || auth()->user()->role->id == 3))
+                <div class="card mb-2 bg-gray-red-low">
+                    <div class="card-header text-center fs-4">Pasibaigusios konferencijos</div>
+                </div>
+                @if($pastConferences->isEmpty())
+                    <div class="alert alert-warning">Pasibaigusių konferencijų nėra.</div>
+                @else
+                    <div class="row gx-2">
+                        @foreach ($pastConferences as $conference)
+                            <div class="col-md-6 mb-2 ">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $conference->title }}</h5>
+                                        <p class="card-text text-truncate" style="max-width: 100%;">{{ $conference->description }}</p>
+
+                                        <!-- Pradžios ir pabaigos laikas vienoje eilutėje -->
+                                        <div class="d-flex justify-content-between">
+                                            <p class="card-text"><strong>Pradžia:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
+                                            <p class="card-text"><strong>Pabaiga:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
+                                        </div>
+
+                                        <!-- Sukūrimo data ir organizatorius kitoje eilutėje -->
+                                        <div class="d-flex justify-content-between">
+                                            <p class="card-text"><strong>Data:</strong> {{ $conference->date }}</p>
+                                            <p class="card-text mx-auto"><strong>Užsiregistravę:</strong> {{ $conference->registrations_count }}</p>
+                                            <p class="card-text"><strong>Organizatorius:</strong> {{ $conference->user->name }}</p>
+                                        </div>
+
+                                        <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info">Peržiūrėti</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            @endif
+        </div>
+    @endsection
