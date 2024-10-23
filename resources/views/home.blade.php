@@ -1,11 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container">@if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('dashboard') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +23,8 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                        Jūsų rolė: {{ auth()->user()->role->name }}
+                        <p>{{ __('home') }}</p>
+                        {{ __('role') }}: {{ auth()->user()->role->name }}
                 </div>
             </div>
         </div>

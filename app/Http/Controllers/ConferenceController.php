@@ -37,13 +37,13 @@ class ConferenceController extends Controller
         Conference::create([
             'title' => $request->title,
             'description' => $request->description,
-            'date' => now()->format('Y-m-d'), // Nustatome dabartinę datą
+            'date' => now()->format('Y-m-d'),
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('conferences.index')->with('success', 'Konferencija sukurta!'); // Patikrinkite, ar šis metodas pasiekiamas
+        return redirect()->route('conferences.index')->with('success', __('a_conference_created'));
     }
 
     public function show(Conference $conference)
@@ -57,9 +57,9 @@ class ConferenceController extends Controller
 
     public function register(Request $request, Conference $conference)
     {
-        // Patikrinkite, ar konferencija yra pasibaigusi
+        // if conference is ended
         if ($conference->end_time < now()) {
-            return redirect()->route('conferences.show', $conference)->with('error', 'Konferencija jau pasibaigusi, negalite registruotis.');
+            return redirect()->route('conferences.show', $conference)->with('error', __('a_conference_ended_cant_reg'));
         }
 
         $existingRegistration = ConferenceRegistration::where('conference_id', $conference->id)
@@ -67,7 +67,7 @@ class ConferenceController extends Controller
             ->first();
 
         if ($existingRegistration) {
-            return redirect()->route('conferences.show', $conference)->with('error', 'Jūs jau esate užsiregistravę į šią konferenciją.');
+            return redirect()->route('conferences.show', $conference)->with('error', __('a_user_already_registered'));
         }
 
 
@@ -76,16 +76,9 @@ class ConferenceController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('conferences.show', $conference)->with('success', 'Sėkmingai užsiregistravote!');
+        return redirect()->route('conferences.show', $conference)->with('success',__('a_user_registered_successfully'));
     }
-    public function destroy(Conference $conference)
-    {
-        if ($conference->end_time < now()) {
-            return redirect()->route('conferences.index')->with('error', 'Negalite ištrinti pasibaigusios konferencijos.');
-        }
-        $conference->delete();
-        return redirect()->route('conferences.index')->with('success', 'Konferencija sėkmingai ištrinta!');
-    }
+
     public function edit(Conference $conference)
     {
         return view('conferences.edit', compact('conference'));
@@ -106,6 +99,22 @@ class ConferenceController extends Controller
             'end_time' => $request->end_time,
         ]);
 
-        return redirect()->route('conferences.index')->with('success', 'Konferencija sėkmingai atnaujinta!');
+        return redirect()->route('conferences.index')->with('success', __('a_conference_updated_successfully'));
+    }
+    public function destroy(Conference $conference)
+    {
+        // Have permissions to delete?
+        if (auth()->user()->role->id != 3) {
+            return redirect()->route('conferences.index')->with('error', __('a_no_permission'));
+        }
+
+        if ($conference->end_time < now()) {
+            return redirect()->route('conferences.index')->with('error', __('a_cannot_delete_past_conference'));
+        }
+
+        // delete conf
+        $conference->delete();
+
+        return redirect()->route('conferences.index')->with('success', __('a_conference_deleted_successfully'));
     }
 }

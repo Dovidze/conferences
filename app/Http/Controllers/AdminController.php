@@ -6,19 +6,19 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
-        // Patikrinkite, ar vartotojas yra administratorius
         if (Auth::check() && Auth::user()->role && Auth::user()->role->name === 'administrator') {
             $users = User::with('role')->get();
             return view('admin.index', compact('users'));
         }
 
-        // Jei vartotojas nėra administratorius, peradresuokite arba grąžinkite klaidą
-        return redirect('/')->with('error', 'You do not have admin access.');
+       return redirect('/home')->with('error', __('a_no_permission'));
     }
 
     public function updateRole(Request $request, User $user)
@@ -31,20 +31,18 @@ class AdminController extends Controller
             $user->role_id = $request->role_id;
             $user->save();
 
-            return redirect()->back()->with('success', 'User role updated successfully.');
+            return redirect()->back()->with('success', __('a_success_role_update'));
         }
 
-        return redirect('/')->with('error', 'You do not have admin access.');
+        return redirect('/home')->with('error', __('a_no_permission'));
     }
 
-    // Metodas, skirtas redaguoti vartotoją
-    public function editUser($id)
+    public function editUser($id): View
     {
         $user = User::findOrFail($id);
         return view('admin.edit', compact('user'));
     }
 
-    // Metodas, skirtas atnaujinti vartotojo duomenis
     public function updateUser(Request $request, $id)
     {
         $request->validate([
@@ -57,6 +55,6 @@ class AdminController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        return redirect()->route('admin.index')->with('success', 'Vartotojo duomenys sėkmingai atnaujinti.');
+        return redirect()->route('admin.index')->with('success',__('a_success_user_update'));
     }
 }

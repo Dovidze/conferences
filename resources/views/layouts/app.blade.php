@@ -26,46 +26,47 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('welcome') }}">{{ __('Home') }}</a>
+                            <a class="nav-link" href="{{ route('welcome') }}">{{ __('home') }}</a>
                         </li>
-                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index') }}">{{ __('Vartotojų koregavimas') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
-                        </li>
-
-                        @endif
-                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
-                        </li>
-
-                        @endif
-                        @if(auth()->check() && auth()->user()->role->id == 1) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">Konferencijos</a>
-                        </li>
-
-                        @endif
 
 
                     </ul>
+                    <ul><li><a href="{{ url('lang/en') }}">{{ trans('locale.en') }}</a></li></ul>
+                    <ul><li><a href="{{ url('lang/lt') }}">{{ trans('locale.lt') }}</a></li></ul>
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
+                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.index') }}">{{ __('user_management') }}</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                        </li>
+                        @endif
+                            @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                            </li>
+                            @endif
+                            @if(auth()->check() && auth()->user()->role->id == 1) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                            </li>
+                            @endif
+                        <li class="nav-item">
+                            <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -78,7 +79,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
