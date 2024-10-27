@@ -21,8 +21,13 @@
     "conference_edit": "Edit Conference",
     "user_edit": "Edit User",
     "update_role": "Update Role",
+    "lithuanian" : "Lithuanian",
+    "english" : "English",
     "show": "Show",
     "save": "Save",
+    "success" : "Success",
+    "ok" : "Okay",
+    "cancel" : "Cancel",
     "registered_users": "Registered Participants",
     "conference_create": "Create New Conference",
     "conferences_active": "Upcoming Conferences",
@@ -43,5 +48,8 @@
     "a_conference_ended_cant_reg": "The conference has already ended, you cannot register",
     "a_conference_created": "Conference created!",
     "a_success_user_update": "User details successfully updated",
-    "a_success_role_update": "User role successfully updated"
+    "a_success_role_update": "User role successfully updated",
+    "a_you_have_registered": "You have registered",
+    "are_you_sure" : "Are you sure?",
+    "yes_delete" : "Yes"
 }

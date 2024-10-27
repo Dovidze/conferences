@@ -20,18 +20,18 @@
                             @if ($registrations->contains('user_id', auth()->id()))
                                 <div class="alert alert-success">{{__('a_conference_user_already_registered')}}</div>
                             @else
-                                <form action="{{ route('conferences.register', $conference) }}" method="POST" class="mb-3">
+                                <form  id="registrationForm" action="{{ route('conferences.register', $conference) }}" method="POST" class="mb-3">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">{{__('register')}}</button>
                                 </form>
                             @endif
 
-                            @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrinimas, ar vartotojas yra administratorius -->
+                            @if(auth()->check() && auth()->user()->role->id == 3)
                             <div class="d-flex mb-2">
-                                <form action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
+                                <form id="deleteForm" action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger me-2" onclick="return confirm('{{__('a_conference_confirm_delete')}}');">{{__('delete')}}</button>
+                                    <button id="deleteButton" type="button" class="btn btn-danger me-2">{{ __('delete') }}</button>
                                 </form>
                                 <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning">{{__('edit')}}</a>
                             </div>
@@ -59,4 +59,37 @@
         @endif
     </div>
 
+@endsection
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: '{{ __('success') }} !',
+                    text: '{{ __('a_you_have_registered') }} !',
+                    icon: 'success',
+                    confirmButtonText: '{{ __('ok') }}'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            });
+        });
+        document.getElementById('deleteButton').addEventListener('click', function() {
+            Swal.fire({
+                title: '{{ __('a_conference_confirm_delete') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '{{ __('yes_delete') }}',
+                cancelButtonText: '{{ __('cancel') }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('deleteForm').submit(); // Pateikti formą, jei vartotojas patvirtina
+                }
+            });
+        });
+    </script>
 @endsection

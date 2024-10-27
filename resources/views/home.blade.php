@@ -23,8 +23,14 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <p>{{ __('home') }}</p>
                         {{ __('role') }}: {{ auth()->user()->role->name }}
+                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                            <a class="nav-link" href="{{ route('admin.index') }}">{{ __('user_management') }}</a>
+                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                        @endif
+                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
+                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                        @endif
                 </div>
             </div>
         </div>

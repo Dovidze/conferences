@@ -21,13 +21,18 @@
     "conference_edit": "Redaguoti konferenciją",
     "user_edit": "Redaguoti vartotoją",
     "update_role": "Atnaujinti rolę",
+    "lithuanian" : "Lietuvių",
+    "english" : "Anglų",
     "show": "Peržiūrėti",
     "save": "Išsaugoti",
+    "success" : "Pavyko",
     "registered_users": "Užsiregistravę dalyviai",
     "conference_create": "Sukurti naują konferenciją",
     "conferences_active": "Planuojamos konferencijos",
     "conferences_ended": "Pasibaigusios konferencijos",
     "role": "Rolė",
+    "ok" : "Gerai",
+    "cancel" : "Atšaukti",
     "a_conference_ended": "Konferencija jau pasibaigusi",
     "a_conference_user_already_registered": "Jūs užsiregistravote į šią konferenciją",
     "a_conference_confirm_delete": "Ar tikrai norite ištrinti šią konferenciją?",
@@ -43,5 +48,8 @@
     "a_conference_ended_cant_reg": "Konferencija jau pasibaigusi, negalite registruotis",
     "a_conference_created": "Konferencija sukurta!",
     "a_success_user_update": "Vartotojo duomenys sėkmingai atnaujinti",
-    "a_success_role_update": "Vartotojo rolė sėkmingai atnaujinta"
+    "a_success_role_update": "Vartotojo rolė sėkmingai atnaujinta",
+    "a_you_have_registered": "Jūs užsiregistravote",
+    "are_you_sure" : "Ar tikrai?",
+    "yes_delete" : "Ištrinti"
 }

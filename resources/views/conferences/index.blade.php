@@ -2,21 +2,10 @@
 
 @section('content')
     <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         @if(auth()->check() && (auth()->user()->role->id == 3))
             <a href="{{ route('conferences.create') }}" class="btn btn-success mb-3 w-100">{{__('conference_create')}}</a>
         @endif
-        <div class="card mb-2 bg-gray-green-low">
+        <div class="card mb-2 bg-gray-green-low" >
             <div class="card-header text-center fs-4 ">{{ __('conferences_active') }}</div>
         </div>
         @if($upcomingConferences->isEmpty())
