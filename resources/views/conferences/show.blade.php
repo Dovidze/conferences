@@ -19,28 +19,30 @@
                         @else
                             @if ($registrations->contains('user_id', auth()->id()))
                                 <div class="alert alert-success">{{__('a_conference_user_already_registered')}}</div>
-                            @else
-                                <form  id="registrationForm" action="{{ route('conferences.register', $conference) }}" method="POST" class="mb-3">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary">{{__('register')}}</button>
-                                </form>
-                            @endif
-
-                            @if(auth()->check() && auth()->user()->role->id == 3)
-                            <div class="d-flex mb-2">
-                                <form id="deleteForm" action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
+                                <!-- Atsisakymo forma -->
+                                <form id="unregistrationForm" action="{{ route('conferences.unregister', $conference) }}" method="POST" class="mb-3">
                                     @csrf
                                     @method('DELETE')
-                                    <button id="deleteButton" type="button" class="btn btn-danger me-2">{{ __('delete') }}</button>
+                                    <button type="submit" class="btn btn-secondary">{{__('unregister')}}</button>
                                 </form>
-                                <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning">{{__('edit')}}</a>
-                            </div>
-
+                            @else
+                                @auth
+                                    @if(auth()->check() && (auth()->user()->role->id != 3))
+                                        <form id="registrationForm" action="{{ route('conferences.register', $conference) }}" method="POST" class="mb-3">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">{{__('register')}}</button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <div class="alert alert-warning">{{__('login_required')}}</div>
+                                @endauth
                             @endif
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+        @if(auth()->check() && (auth()->user()->role->id == 2 || auth()->user()->role->id == 3)) <!-- Patikrinimas, ar vartotojas yra administratorius -->
         <h3>{{__('registered_users')}}: {{ $registrationsCount }}</h3>
         <ul>
             @foreach ($registrations as $registration)
@@ -48,47 +50,44 @@
             @endforeach
         </ul>
         @endif
-
-        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrinimas, ar vartotojas yra administratorius -->
-                        <h3>{{__('registered_users')}}: {{ $registrationsCount }}</h3>
-        <ul>
-            @foreach ($registrations as $registration)
-                <li>{{ $registration->user->name }}</li>
-            @endforeach
-        </ul>
-        @endif
     </div>
-
 @endsection
+
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            // Registration Alert
+            document.getElementById('registrationForm')?.addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 Swal.fire({
                     title: '{{ __('success') }} !',
                     text: '{{ __('a_you_have_registered') }} !',
                     icon: 'success',
-                    confirmButtonText: '{{ __('ok') }}'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                }).then(() => {
+                    setTimeout(() => {
+                        e.target.submit();
+                    }, 100);
                 });
             });
-        });
-        document.getElementById('deleteButton').addEventListener('click', function() {
-            Swal.fire({
-                title: '{{ __('a_conference_confirm_delete') }}',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: '{{ __('yes_delete') }}',
-                cancelButtonText: '{{ __('cancel') }}'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('deleteForm').submit(); // Pateikti formą, jei vartotojas patvirtina
-                }
+
+            // Unregistration Alert
+            document.getElementById('unregistrationForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '{{ __('success') }} !',
+                    text: '{{ __('a_you_have_unregistered') }} !',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    timerProgressBar: true
+                }).then(() => {
+                    setTimeout(() => {
+                        e.target.submit();
+                    }, 100);
+                });
             });
         });
     </script>

@@ -14,9 +14,38 @@ class ConferenceController extends Controller
         $upcomingConferences = Conference::where('start_time', '>', now())->with('user')->withCount('registrations')->get();
         $pastConferences = Conference::where('end_time', '<', now())->with('user')->withCount('registrations')->get();
 
-
         return view('conferences.index', compact('upcomingConferences', 'pastConferences'));
 
+    }
+    public function welcome()
+    {
+        $upcomingConferences = Conference::where('start_time', '>', now())
+            ->with('user')
+            ->withCount('registrations')
+            ->get();
+        $pastConferences = Conference::where('end_time', '<', now())
+            ->with('user')
+            ->withCount('registrations')
+            ->get();
+        //dd(auth()->user()->registrations);
+
+        $registrations = auth()->check() ? auth()->user()->registrations : collect();
+
+        return view('welcome', compact('upcomingConferences', 'registrations','pastConferences'));
+    }
+    public function list()
+    {
+        $upcomingConferences = Conference::where('start_time', '>', now())
+            ->with('user')
+            ->withCount('registrations')
+            ->get();
+
+        $pastConferences = Conference::where('end_time', '<', now())
+            ->with('user')
+            ->withCount('registrations')
+            ->get();
+
+        return view('conferences.list', compact('upcomingConferences','pastConferences')); // Grą
     }
 
     public function create()
@@ -43,7 +72,7 @@ class ConferenceController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('conferences.index')->with('success', __('a_conference_created'));
+        return redirect()->route('conferences.list')->with('success', __('a_conference_created'));
     }
 
     public function show(Conference $conference)
@@ -78,6 +107,17 @@ class ConferenceController extends Controller
 
         return redirect()->route('conferences.show', $conference)->with('success',__('a_user_registered_successfully'));
     }
+    public function unregister(Conference $conference)
+    {
+        $registration = $conference->registrations()->where('user_id', auth()->id())->first();
+
+        if ($registration) {
+            $registration->delete();
+            return redirect()->back()->with('success', __('You have successfully unregistered from the conference.'));
+        }
+
+        return redirect()->back()->with('error', __('You are not registered for this conference.'));
+    }
 
     public function edit(Conference $conference)
     {
@@ -99,22 +139,18 @@ class ConferenceController extends Controller
             'end_time' => $request->end_time,
         ]);
 
-        return redirect()->route('conferences.index')->with('success', __('a_conference_updated_successfully'));
+        return redirect()->route('conferences.list')->with('success', __('a_conference_updated_successfully'));
     }
     public function destroy(Conference $conference)
     {
-        // Have permissions to delete?
-        if (auth()->user()->role->id != 3) {
-            return redirect()->route('conferences.index')->with('error', __('a_no_permission'));
-        }
 
-        if ($conference->end_time < now()) {
-            return redirect()->route('conferences.index')->with('error', __('a_cannot_delete_past_conference'));
-        }
+//        if ($conference->end_time < now()) {
+//            return redirect()->route('conferences.index')->with('error', __('a_cannot_delete_past_conference'));
+//        }
 
         // delete conf
         $conference->delete();
 
-        return redirect()->route('conferences.index')->with('success', __('a_conference_deleted_successfully'));
+        return redirect()->route('conferences.list')->with('success', __('a_conference_deleted_successfully'));
     }
 }

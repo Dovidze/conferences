@@ -1,10 +1,10 @@
+
 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('welcome') }}">{{ __('home') }}</a>
@@ -12,23 +12,25 @@
                     </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.index') }}">{{ __('user_management') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
-                        </li>
-                        @endif
-                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+                        @if(auth()->check() && (auth()->user()->role->id == 3))
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">{{ __('admin_menu') }}</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('home') }}">{{ __('dashboard') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('conferences.index') }}">{{ __('all_conferences') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('user_management') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('conferences.list') }}">{{ __('conference_management') }}</a></li>
+                            </ul>
                         </li>
                         @endif
-                        @if(auth()->check() && auth()->user()->role->id == 1) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
-                        </li>
+                        @if(auth()->check() && (auth()->user()->role->id == 2))
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">{{ __('employee_menu') }}</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('home') }}">{{ __('dashboard') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('conferences.index') }}">{{ __('all_conferences') }}</a></li>
+                                </ul>
+                            </li>
                         @endif
                         <li class="nav-item">
                             <!-- Authentication Links -->

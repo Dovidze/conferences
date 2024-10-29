@@ -23,14 +23,21 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        {{ __('role') }}: {{ auth()->user()->role->name }}
-                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                            <a class="nav-link" href="{{ route('admin.index') }}">{{ __('user_management') }}</a>
-                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+
+                    <h5 class="card-title mb-3">{{ __('role') }}: <strong>{{ auth()->user()->role->name }}</strong></h5>
+
+                    <div class="mb-3">
+                        @if(auth()->check() && auth()->user()->role->id == 3) <!-- Administrator -->
+                        <h6 class="text-primary mb-2">{{ __('Admin Options') }}</h6>
+                        <a class="btn btn-outline-primary me-2" href="{{ route('admin.index') }}">{{ __('user_management') }}</a>
+                        <a class="btn btn-outline-primary me-2" href="{{ route('conferences.list') }}">{{ __('conference_management') }}</a>
                         @endif
-                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Patikrina, ar vartotojas yra prisijungęs ir turi administratoriaus rolę -->
-                            <a class="nav-link" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
+
+                        @if(auth()->check() && auth()->user()->role->id == 2) <!-- Employee -->
+                        <h6 class="text-secondary">{{ __('Employee Options') }}</h6>
+                        <a class="btn btn-outline-secondary me-2" href="{{ route('conferences.index') }}">{{ __('conferences') }}</a>
                         @endif
+                    </div>
                 </div>
             </div>
         </div>
