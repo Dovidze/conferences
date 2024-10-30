@@ -5,13 +5,16 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav w-100">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('welcome') }}">{{ __('home') }}</a>
                         </li>
-                    </ul>
+                        <li class="nav-item mx-auto">
+                            <a class="nav-link fw-bold" href="">{{ __('today_date') }} : {{ \Carbon\Carbon::now()->format('Y-m-d') }}</a>
+                        </li>
+
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+
                         @if(auth()->check() && (auth()->user()->role->id == 3))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">{{ __('admin_menu') }}</a>

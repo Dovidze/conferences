@@ -13149,3 +13149,7 @@ textarea.form-control-lg {
 .dropdown-item:hover {
   background-color: #a5a5a5;
 }
+
+.highlighted {
+  background-color: #cce5ff;
+}

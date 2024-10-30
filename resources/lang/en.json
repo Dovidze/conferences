@@ -33,6 +33,8 @@
     "success" : "Success",
     "ok" : "Okay",
     "yes" : "Yes",
+    "left" : "Left",
+    "today_date" : "Today's date",
     "cancel" : "Cancel",
     "registered_users": "Registered Participants",
     "conference_create": "Create New Conference",

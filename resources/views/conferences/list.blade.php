@@ -15,9 +15,11 @@
                 @foreach ($upcomingConferences as $conference)
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <div class="card-header fs-5">{{ $conference->title }}</div>
+                            <div class="card-header fs-5" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $conference->title }}</div>
                             <div class="card-body">
-                                <p>{{ $conference->description }}</p>
+                                <p style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                    {{ $conference->description }}
+                                </p>
                                 <p><strong>{{ __('start_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
                                 <p><strong>{{ __('end_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
                                 <p><strong>{{ __('organizer') }}:</strong> {{ $conference->user->name }}</p>

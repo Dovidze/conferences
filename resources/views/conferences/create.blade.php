@@ -25,4 +25,5 @@
             <button type="submit" class="btn btn-primary">{{__('create')}}</button>
         </form>
     </div>
+
 @endsection

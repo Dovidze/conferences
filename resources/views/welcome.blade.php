@@ -25,7 +25,12 @@
                             <div class="card h-100">
                         @endif
                         <div class="card-body">
-                            <h5 class="card-title">{{ $conference->title }}</h5>
+                            <h5 class="card-title">{{ $conference->title }}
+                                @php
+                                    $daysLeft = ceil(\Carbon\Carbon::now()->floatDiffInDays(\Carbon\Carbon::parse($conference->start_time), false));
+                                @endphp
+                                    <span class="text-success">({{ __('left') }} {{ $daysLeft }} {{ __('d.') }})</span>
+                            </h5>
                             <p class="card-text text-truncate" style="max-width: 100%;">{{ $conference->description }}</p>
 
                             <div class="d-flex justify-content-between">

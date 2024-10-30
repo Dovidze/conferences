@@ -6,48 +6,48 @@ use App\Models\Conference;
 use App\Models\ConferenceRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ConferenceController extends Controller
 {
     public function index()
     {
-        $upcomingConferences = Conference::where('start_time', '>', now())->with('user')->withCount('registrations')->get();
-        $pastConferences = Conference::where('end_time', '<', now())->with('user')->withCount('registrations')->get();
+        list($upcomingConferences, $pastConferences) = $this->getConferences();
 
         return view('conferences.index', compact('upcomingConferences', 'pastConferences'));
 
     }
     public function welcome()
     {
-        $upcomingConferences = Conference::where('start_time', '>', now())
-            ->with('user')
-            ->withCount('registrations')
-            ->get();
-        $pastConferences = Conference::where('end_time', '<', now())
-            ->with('user')
-            ->withCount('registrations')
-            ->get();
-        //dd(auth()->user()->registrations);
+        list($upcomingConferences, $pastConferences) = $this->getConferences();
 
         $registrations = auth()->check() ? auth()->user()->registrations : collect();
 
-        return view('welcome', compact('upcomingConferences', 'registrations','pastConferences'));
+        return view('welcome', compact('upcomingConferences', 'registrations', 'pastConferences'));
     }
     public function list()
+    {
+        list($upcomingConferences, $pastConferences) = $this->getConferences();
+
+        return view('conferences.list', compact('upcomingConferences', 'pastConferences'));// Grą
+    }
+    private function getConferences()
     {
         $upcomingConferences = Conference::where('start_time', '>', now())
             ->with('user')
             ->withCount('registrations')
-            ->get();
+            ->get()
+            ->sortBy(function ($conference) {
+                return Carbon::now()->diffInDays(Carbon::parse($conference->start_time), false);
+            });
 
         $pastConferences = Conference::where('end_time', '<', now())
             ->with('user')
             ->withCount('registrations')
             ->get();
 
-        return view('conferences.list', compact('upcomingConferences','pastConferences')); // Grą
+        return [$upcomingConferences, $pastConferences];
     }
-
     public function create()
     {
         return view('conferences.create');
@@ -58,7 +58,7 @@ class ConferenceController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'start_time' => 'required|date',
+            'start_time' => 'required|date|after_or_equal:today',
             'end_time' => 'required|date|after:start_time',
         ]);
 
@@ -144,13 +144,11 @@ class ConferenceController extends Controller
     public function destroy(Conference $conference)
     {
 
-//        if ($conference->end_time < now()) {
-//            return redirect()->route('conferences.index')->with('error', __('a_cannot_delete_past_conference'));
-//        }
 
         // delete conf
         $conference->delete();
 
         return redirect()->route('conferences.list')->with('success', __('a_conference_deleted_successfully'));
     }
+
 }

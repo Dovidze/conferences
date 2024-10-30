@@ -42,6 +42,8 @@
     "role": "Rolė",
     "ok" : "Gerai",
     "yes" : "Taip",
+    "left" : "Liko",
+    "today_date" : "Šiandienos data",
     "cancel" : "Atšaukti",
     "a_conference_ended": "Konferencija jau pasibaigusi",
     "a_conference_user_already_registered": "Jūs užsiregistravote į šią konferenciją",

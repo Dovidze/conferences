@@ -10,7 +10,7 @@
         @else
                 <div class="row gx-2">
                     @foreach ($upcomingConferences as $conference)
-                        <div class="col-md-6 mb-2 ">
+                        <div class="col-md-6 mb-2">
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $conference->title }}</h5>
