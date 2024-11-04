@@ -19,7 +19,7 @@
                         @else
                             @if ($registrations->contains('user_id', auth()->id()))
                                 <div class="alert alert-success">{{__('a_conference_user_already_registered')}}</div>
-                                <!-- Atsisakymo forma -->
+
                                 <form id="unregistrationForm" action="{{ route('conferences.unregister', $conference) }}" method="POST" class="mb-3">
                                     @csrf
                                     @method('DELETE')
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->check() && (auth()->user()->role->id == 2 || auth()->user()->role->id == 3)) <!-- Patikrinimas, ar vartotojas yra administratorius -->
+        @if(auth()->check() && (auth()->user()->role->id == 2 || auth()->user()->role->id == 3))
         <h3>{{__('registered_users')}}: {{ $registrationsCount }}</h3>
         <ul>
             @foreach ($registrations as $registration)

@@ -17,9 +17,7 @@
                         <div class="card">
                             <div class="card-header fs-5" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $conference->title }}</div>
                             <div class="card-body">
-                                <p style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                                    {{ $conference->description }}
-                                </p>
+                                <p class="description">{{ $conference->description }}</p>
                                 <p><strong>{{ __('start_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
                                 <p><strong>{{ __('end_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
                                 <p><strong>{{ __('organizer') }}:</strong> {{ $conference->user->name }}</p>
@@ -28,7 +26,7 @@
                                     <a href="{{ route('conferences.show', $conference) }}" class="btn btn-info me-2">{{ __('show') }}</a>
                                     <a href="{{ route('conferences.edit', $conference) }}" class="btn btn-warning me-2">{{ __('edit') }}</a>
 
-                                    @if(auth()->check() && auth()->user()->role->id == 3) <!-- Administratorius -->
+                                 @if(auth()->check() && auth()->user()->role->id == 3) {{-- Only administrator can delete --}}
                                     <form id="deleteForm" action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -52,16 +50,16 @@
                 @foreach ($pastConferences as $conference)
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <div class="card-header fs-5">{{ $conference->title }}</div>
+                            <div class="card-header fs-5" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $conference->title }}</div>
                             <div class="card-body">
-                                <p>{{ $conference->description }}</p>
+                                <p class="description">{{ $conference->description }}</p>
                                 <p><strong>{{ __('start_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
                                 <p><strong>{{ __('end_time') }}:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
                                 <p><strong>{{ __('organizer') }}:</strong> {{ $conference->user->name }}</p>
 
                                 <div class="d-flex">
                                     <a href="{{ route('conferences.show', $conference) }}" class="btn btn-info me-2">{{ __('show') }}</a>
-                                    @if(auth()->check() && auth()->user()->role->id == 3) <!-- Administratorius -->
+                                    @if(auth()->check() && auth()->user()->role->id == 3)  {{-- Only administrator can delete --}}
                                     <form id="deleteForm" action="{{ route('conferences.destroy', $conference->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -83,7 +81,6 @@
         // Delete/destroy conf Alert
         document.querySelectorAll('.delete-button').forEach(button => {
             button.addEventListener('click', function() {
-                // Raskite artimiausią formą
                 const form = this.closest('form');
 
                 Swal.fire({
@@ -94,11 +91,11 @@
                     cancelButtonText: '{{ __('cancel') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Pranešimas apie sėkmingą ištrinimą
+                        // Alert about successful event (delete)
                         Swal.fire({
-                            title: '{{ __('a_conference_deleted_successfully') }}', // Jūsų pranešimo antraštė
+                            title: '{{ __('a_conference_deleted_successfully') }}',
                             icon: 'success',
-                            timer: 2000, // Paslėpti po 2 sekundžių
+                            timer: 2000,
                             showConfirmButton: false
                         }).then(() => {
                                 form.submit();

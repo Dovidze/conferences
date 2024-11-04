@@ -14,15 +14,13 @@
                         </li>
 
                     <!-- Right Side Of Navbar -->
-
                         @if(auth()->check() && (auth()->user()->role->id == 3))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">{{ __('admin_menu') }}</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('home') }}">{{ __('dashboard') }}</a></li>
-                                <li><a class="dropdown-item" href="{{ route('conferences.index') }}">{{ __('all_conferences') }}</a></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('user_management') }}</a></li>
                                 <li><a class="dropdown-item" href="{{ route('conferences.list') }}">{{ __('conference_management') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('user_management') }}</a></li>
                             </ul>
                         </li>
                         @endif

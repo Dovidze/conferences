@@ -62,7 +62,7 @@
             const newRoleId = selectElement.value;
 
             if (currentRoleId == '3' && newRoleId != '3') {
-                event.preventDefault(); // Sustabdyti formos siuntimą
+                event.preventDefault();
 
                 Swal.fire({
                     text: '{{ __('are_you_sure_to_change_role') }}',
@@ -74,24 +74,24 @@
                     if (result.isConfirmed) {
                         // Rodyti sėkmingą pranešimą
                         Swal.fire({
-                            title: '{{ __('a_success_role_update') }}', // Pakeiskite šį tekstą, jei reikia
+                            title: '{{ __('a_success_role_update') }}',
                             icon: 'success',
-                            timer: 2000, // Laikas, po kurio pranešimas dings, 5000 ms = 5 sekundės
-                            showConfirmButton: false // Nepriklausomai rodyti mygtuko
+                            timer: 2000,
+                            showConfirmButton: false
                         }).then(() => {
-                            form.submit(); // Išsiųsti formą po 5 sekundžių
+                            form.submit();
                         });
                     }
                 });
             } else {
-                // Jei keičiasi į kitą rolę (ne Administratorius), tiesiog siunčiame formą
+                // If it is not administrator, just send that form without asking to confirm
                 Swal.fire({
                     icon: 'success',
-                    title: '{{ __('a_success_role_update') }}', // Pakeiskite šį tekstą, jei reikia
-                    timer: 2000, // Laikas, po kurio pranešimas dings, 5000 ms = 5 sekundės
-                    showConfirmButton: false // Nepriklausomai rodyti mygtuko
+                    title: '{{ __('a_success_role_update') }}',
+                    timer: 2000,
+                    showConfirmButton: false
                 }).then(() => {
-                    form.submit(); // Išsiųsti formą
+                    form.submit();
                 });
             }
         }

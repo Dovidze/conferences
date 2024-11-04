@@ -18,13 +18,12 @@ class ConferenceSeeder extends Seeder
         Conference::create([
             'title' => 'Pirmoji konferencija',
             'description' => 'Ši konferencija kalbės apie programavimą.',
-            'start_time' => Carbon::now()->addDays(1), // Pradžios laikas - rytoj
-            'end_time' => Carbon::now()->addDays(1)->addHours(2), // Pabaigos laikas - rytoj po 2 valandų
-            'date' => now()->format('Y-m-d'), // Šiandienos data
-            'user_id' => 1 // Vartotojo ID, kuris sukūrė konferenciją
+            'start_time' => Carbon::now()->addDays(1),
+            'end_time' => Carbon::now()->addDays(1)->addHours(2),
+            'date' => now()->format('Y-m-d'),
+            'user_id' => 1
         ]);
 
-        // Galite pridėti daugiau konferencijų
         Conference::create([
             'title' => 'Antroji konferencija',
             'description' => 'Ši konferencija kalbės apie naujausias technologijas.',

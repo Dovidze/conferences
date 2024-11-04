@@ -10,12 +10,17 @@
             <p><strong>{{ __('group') }}:</strong> PIT-21-I-NT</p>
         </div>
 
+        {{-- Upcoming conferences --}}
         <div class="card mb-2 bg-gray-green-low">
             <div class="card-header text-center fs-4">{{ __('conferences_active') }}</div>
         </div>
+
+        {{-- If there is no upcoming conf --}}
         @if($upcomingConferences->isEmpty())
             <div class="alert alert-warning">{{ __('a_no_active_conferences') }}</div>
         @else
+
+            {{-- If it is some upcoming conf --}}
             <div class="row gx-2">
                 @foreach ($upcomingConferences as $conference)
                     <div class="col-md-6 mb-2 ">
@@ -26,12 +31,13 @@
                         @endif
                         <div class="card-body">
                             <h5 class="card-title">{{ $conference->title }}
-                                @php
-                                    $daysLeft = ceil(\Carbon\Carbon::now()->floatDiffInDays(\Carbon\Carbon::parse($conference->start_time), false));
-                                @endphp
-                                    <span class="text-success">({{ __('left') }} {{ $daysLeft }} {{ __('d.') }})</span>
+
+                                {{-- Days left near Title --}}
+                                <span class="text-success">
+                                    ({{ __('left') }} {{ __(' ~') }} {{ $conference->daysLeft }} {{ __('d.') }})
+                                </span>
                             </h5>
-                            <p class="card-text text-truncate" style="max-width: 100%;">{{ $conference->description }}</p>
+                            <p class="card-text text-truncate">{{ $conference->description }}</p>
 
                             <div class="d-flex justify-content-between">
                                 <p class="card-text"><strong>{{__('start_time')}}:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
@@ -47,7 +53,7 @@
                             <div class="d-flex align-items-center">
                                 <a href="{{ route('conferences.show', $conference->id) }}" class="btn btn-info me-2">{{ __('show') }}</a>
                                 @if (auth()->check() && $registrations && $registrations->contains('conference_id', $conference->id))
-                                    <p class="mb-0 text-success fw-bold">{{ __('you_are_registered') }}</p> <!-- Čia galite keisti tekstą, jei reikia -->
+                                    <p class="mb-0 text-success fw-bold">{{ __('you_are_registered') }}</p>
                                 @endif
                             </div>
                         </div>

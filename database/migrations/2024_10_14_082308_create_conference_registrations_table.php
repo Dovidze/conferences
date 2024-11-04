@@ -10,8 +10,8 @@ class CreateConferenceRegistrationsTable extends Migration
     {
         Schema::create('conference_registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('conference_id')->constrained()->onDelete('cascade'); // Priklauso konferencijai
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Registruojantis vartotojas
+            $table->foreignId('conference_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

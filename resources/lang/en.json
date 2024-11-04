@@ -68,5 +68,6 @@
     "yes_delete" : "Yes",
     "are_you_sure_to_change_role" : "Are you sure you want to change the role from Administrator to another role?",
     "login_required" : "You must be logged in to register.",
-    "student_information" : "Student information"
+    "student_information" : "Student information",
+    "after" : "The end time field must be a date after start time."
 }

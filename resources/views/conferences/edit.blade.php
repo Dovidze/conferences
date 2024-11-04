@@ -18,11 +18,14 @@
             </div>
             <div class="mb-3">
                 <label for="start_time" class="form-label">{{__('start_time')}}</label>
-                <input type="datetime-local" class="form-control" id="start_time" name="start_time" value="{{ date('Y-m-d H:i', strtotime($conference->start_time)) }}" required>
+                <input type="datetime-local" class="form-control" id="start_time" name="start_time" onkeydown="return false;" value="{{ date('Y-m-d H:i', strtotime($conference->start_time)) }}" required>
             </div>
             <div class="mb-3">
                 <label for="end_time" class="form-label">{{__('end_time')}}</label>
-                <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="{{ date('Y-m-d H:i', strtotime($conference->end_time)) }}" required>
+                <input type="datetime-local" class="form-control" id="end_time" name="end_time" onkeydown="return false;" value="{{ date('Y-m-d H:i', strtotime($conference->end_time)) }}" required>
+                @if ($errors->has('end_time'))
+                    <div class="alert alert-warning">{{ $errors->first('end_time') }}</div>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary">{{__('save')}}</button>
         </form>

@@ -21,6 +21,22 @@ class ConferenceController extends Controller
     {
         list($upcomingConferences, $pastConferences) = $this->getConferences();
 
+        //Days left
+        $upcomingConferences->transform(function ($conference) {
+            $now = Carbon::now();
+            $startTime = Carbon::parse($conference->start_time);
+
+            $diffInSeconds = $startTime->timestamp - $now->timestamp; // Sec difference
+            $daysLeft = $diffInSeconds / (60 * 60 * 24); // Sec transfer to days
+
+            // daysLeft round
+            $conference->daysLeft = round($daysLeft);
+            //$conference->daysLeft = $daysLeft;
+
+            return $conference;
+        });
+
+        //Registrations count
         $registrations = auth()->check() ? auth()->user()->registrations : collect();
 
         return view('welcome', compact('upcomingConferences', 'registrations', 'pastConferences'));
@@ -77,7 +93,7 @@ class ConferenceController extends Controller
 
     public function show(Conference $conference)
     {
-        // Gauti registruotų asmenų skaičių
+
         $registrationsCount = $conference->registrations()->count();
         $registrations = $conference->registrations()->with('user')->get();
 

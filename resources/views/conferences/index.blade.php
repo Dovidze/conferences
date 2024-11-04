@@ -51,13 +51,13 @@
                                         <h5 class="card-title">{{ $conference->title }}</h5>
                                         <p class="card-text text-truncate" style="max-width: 100%;">{{ $conference->description }}</p>
 
-                                        <!-- Pradžios ir pabaigos laikas vienoje eilutėje -->
+                                        {{-- Start and end date on the same line--}}
                                         <div class="d-flex justify-content-between">
                                             <p class="card-text"><strong>{{__('start_time')}}:</strong> {{ date('Y-m-d H:i', strtotime($conference->start_time)) }}</p>
                                             <p class="card-text"><strong>{{__('end_time')}}:</strong> {{ date('Y-m-d H:i', strtotime($conference->end_time)) }}</p>
                                         </div>
 
-                                        <!-- Sukūrimo data ir organizatorius kitoje eilutėje -->
+                                        {{-- Created date and organizator on the same line--}}
                                         <div class="d-flex justify-content-between">
                                             <p class="card-text"><strong>{{__('created')}}:</strong> {{ $conference->date }}</p>
                                             <p class="card-text mx-auto"><strong>{{__('registered_users')}}:</strong> {{ $conference->registrations_count }}</p>
