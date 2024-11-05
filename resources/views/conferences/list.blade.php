@@ -75,34 +75,3 @@
         </div>
     @endif
 @endsection
-
-@section('scripts')
-    <script>
-        // Delete/destroy conf Alert
-        document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', function() {
-                const form = this.closest('form');
-
-                Swal.fire({
-                    title: '{{ __('a_conference_confirm_delete') }}',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: '{{ __('yes_delete') }}',
-                    cancelButtonText: '{{ __('cancel') }}'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Alert about successful event (delete)
-                        Swal.fire({
-                            title: '{{ __('a_conference_deleted_successfully') }}',
-                            icon: 'success',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                                form.submit();
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-@endsection

@@ -69,5 +69,7 @@
     "are_you_sure_to_change_role" : "Are you sure you want to change the role from Administrator to another role?",
     "login_required" : "You must be logged in to register.",
     "student_information" : "Student information",
-    "after" : "The end time field must be a date after start time."
+    "after" : "The end time field must be a date after start time.",
+    "this_email_is_already_taken" : "This email is already taken",
+    "the_end_time_must_be_after_the_start_time" : "The end time must be after the start time."
 }

@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\{AdminController, ConferenceController, HomeController};
 
 Route::group(['middleware' => \ied3vil\LanguageSwitcher\Middleware\LanguageSwitcherMiddleware::class], function () {
 

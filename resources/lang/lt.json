@@ -68,5 +68,7 @@
     "yes_delete" : "Ištrinti",
     "are_you_sure_to_change_role" : "Ar tikrai norite pakeisti rolę iš Administrator į kitą rolę?",
     "login_required" : "Turite prisijungti, jei norite registruotis",
-    "student_information" : "Studento informacija"
+    "student_information" : "Studento informacija",
+    "this_email_is_already_taken" : "Šis el. pašto adresas užimtas",
+    "the_end_time_must_be_after_the_start_time" : "Pabaigos data turi būti ne ankčiau kaip viena diena nuo pradžios"
 }

@@ -2,7 +2,6 @@
 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav w-100">

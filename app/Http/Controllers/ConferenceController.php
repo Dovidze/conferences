@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\ConferenceRegistration;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Http\Requests\UpdateConferenceRequest;
+use App\Http\Requests\StoreConferenceRequest;
 
 class ConferenceController extends Controller
 {
@@ -69,15 +70,8 @@ class ConferenceController extends Controller
         return view('conferences.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreConferenceRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_time' => 'required|date|after_or_equal:today',
-            'end_time' => 'required|date|after:start_time',
-        ]);
-
 
         Conference::create([
             'title' => $request->title,
@@ -100,7 +94,7 @@ class ConferenceController extends Controller
         return view('conferences.show', compact('conference','registrations','registrationsCount'));
     }
 
-    public function register(Request $request, Conference $conference)
+    public function register(Conference $conference)
     {
         // if conference is ended
         if ($conference->end_time < now()) {
@@ -139,14 +133,8 @@ class ConferenceController extends Controller
     {
         return view('conferences.edit', compact('conference'));
     }
-    public function update(Request $request, Conference $conference)
+    public function update(UpdateConferenceRequest $request, Conference $conference)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-        ]);
 
         $conference->update([
             'title' => $request->title,
