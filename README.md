@@ -4,7 +4,7 @@ Baigiamasis darbas
 
 Šis projektas yra internetinė sistema, skirta konferencijų registracijai ir konferencijų duomenų valdymui. Sistema apima skirtingus naudotojų vaidmenis, kuriems suteikiami skirtingi prieigos lygiai.
 
-### Naudotojų vaidmenys
+# Naudotojų vaidmenys
 #### Klientas 
 - Gali peržiūrėti būsimąsias konferencijas ir užsiregistruoti į jas.
 #### Darbuotojas
@@ -12,7 +12,7 @@ Baigiamasis darbas
 #### Administratorius
 - Turi pilną prieigą kurti, redaguoti ir šalinti konferencijų duomenis, taip pat redaguoti naudotojų informaciją (vardą, pavardę).
 
-### Funkcijos
+# Funkcijos
 #### Registracija
 - Klientai gali registruotis į konferencijas.
 #### Konferencijų valdymas
@@ -37,7 +37,7 @@ Baigiamasis darbas
 - SweetAlert2 (UI pranešimai)
 - Laravel Mix (kompiliavimas)
 
-### Projekto vaizdai
+# Projekto vaizdai
 #### 1. Pagrindinis puslapis
 ![PradinisPuslapis](https://github.com/user-attachments/assets/620bf4da-06fa-4f77-adab-2ceea5d49433)
 
@@ -50,7 +50,7 @@ Baigiamasis darbas
 #### 4. Vartotojų valdymas
 ![VartotojuValdymas](https://github.com/user-attachments/assets/b9dad132-e410-44fd-8fd7-f346a9cbc98b)
 
-### Įdiegimas
+# Įdiegimas
 #### 1. Priklausomybės
 ``` bash 
 cd <project_directory>
@@ -78,6 +78,6 @@ $user->role_id = 3;
 $user->save();
 exit
 ```
-### Autorius
+# Autorius
 **Dovydas**
 - [GitHub](https://github.com/Dovidze)
